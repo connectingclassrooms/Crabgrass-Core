@@ -1,0 +1,29 @@
+<h1>Edit Groups</h1>
+
+<% form_for(@group) do |f| %>
+  <%= f.error_messages %>
+  <table>
+    <%= render :partial => 'form', :locals => {:f => f} %>
+    <tr>
+      <td><%= f.submit "Update" %></td>
+    </tr>
+  </table>
+<% end %>
+
+<h2>Memberships</h2>
+
+<ul>
+  <% @group.memberships.each do |mem| -%>
+  <li>
+    <%= mem.user.login %>
+    <%# link_to 'remove', :controller => 'admin/memberships', :action => 'destroy', :id => mem.id %>
+    <%= link_to 'remove', membership_path(mem), :method => 'delete' %>
+  </li>
+  <% end -%>
+</ul>
+
+<% form_tag(:controller => 'admin/memberships', :action => 'create', :group_id => @group.id) do -%>
+<%= text_field_tag 'user_login' %>
+<%= submit_tag 'add' %>
+<% end -%>
+

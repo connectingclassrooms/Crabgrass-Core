@@ -1,0 +1,15 @@
+<h1>Edit Users</h1>
+
+<%= link_to '&laquo;&nbsp;'+I18n.t(:back), users_path %>
+
+<% form_for(@user, :html => {:multipart => true}) do |f| %>
+  <%= f.error_messages %>
+<table>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <tr>
+    <td colspan="2">
+      <%= f.submit "Update" %>
+    </td>
+  </tr>
+</table>
+<% end %>
