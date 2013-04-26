@@ -93,7 +93,7 @@ remote_processing: "http://localhost:3002"
 # MODES
 #
 
-enabled_mods:
+enabled_mods: ['super_admin']
 
 #
 # SITES
