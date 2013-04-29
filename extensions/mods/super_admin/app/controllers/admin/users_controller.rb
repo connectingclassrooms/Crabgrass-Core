@@ -9,14 +9,14 @@ class Admin::UsersController < Admin::BaseController
   def index
     @letter = (params[:letter] || '')
     if params[:show] == 'active'
-      @users = User.on(current_site).alphabetized(@letter).active_since(1.month.ago).paginate(:page => params[:page])
+      @users = User.alphabetized(@letter).active_since(1.month.ago).paginate(:page => params[:page])
       @pagination_letters = (User.on(current_site).active_since(1.month.ago).logins_only).collect{|u| u.login.first.upcase}.uniq
     elsif params[:show] == 'inactive'
-      @users = User.on(current_site).inactive_since(1.month.ago).alphabetized(@letter).paginate(:page => params[:page])
-      @pagination_letters = (User.on(current_site).inactive_since(1.month.ago).logins_only).collect{|u| u.login.first.upcase}.uniq
+      @users = User.inactive_since(1.month.ago).alphabetized(@letter).paginate(:page => params[:page])
+      @pagination_letters = (User.inactive_since(1.month.ago).logins_only).collect{|u| u.login.first.upcase}.uniq
     else
-      @users = User.on(current_site).alphabetized(@letter).paginate(:page => params[:page])
-      @pagination_letters = (User.on(current_site).logins_only).collect{|u| u.login.first.upcase}.uniq
+      @users = User.alphabetized(@letter).paginate(:page => params[:page])
+      @pagination_letters = (User.logins_only).collect{|u| u.login.first.upcase}.uniq
     end
     @show = params[:show]
     respond_to do |format|
