@@ -9,5 +9,6 @@ Crabgrass.mod_routes do |map|
     admin.resources :groups
     admin.resources :users
     admin.resources :memberships
+    admin.connect 'become/:id', :controller => 'account', :action => 'become'
   end
 end
