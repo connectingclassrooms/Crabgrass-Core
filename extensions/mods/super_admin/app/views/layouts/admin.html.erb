@@ -1,0 +1,13 @@
+<html>
+<head>
+  <title><%= params[:action] %></title>
+  <%= crabgrass_javascripts %>
+  <style>
+    <%= yield :style %>
+  </style>
+</head>
+<body>
+<%= render "admin/base/super_admin_nav" %>
+<%= content_for(:layout) %>
+</body>
+</html>

@@ -2,6 +2,7 @@ class Admin::BaseController < ApplicationController
   # these helpers are needed for the links added to the admin navigation by this mod
   helper 'admin/users', 'admin/groups', 'admin/memberships'
 
+  layout 'admin'
 
   prepend_before_filter :restore_superadmin, :only => :index
 
