@@ -2,8 +2,8 @@
 %h2.alert Super Admin Powers
 %div.side_list
   %ul
-    = menu 'Create User', new_admin_user_path, :class => "small_icon user_add_16"
-    = menu 'Edit Users', users_path, :class=>"small_icon user_16"
-    = menu 'Create Groups', new_group_path, :class=>"small_icon membership_add_16"
-    = menu 'Edit Groups', groups_path, :class=>"small_icon group_contributions_16"
+    = link_to 'Create User', new_admin_user_path, :class => "small_icon user_add_16"
+    = link_to 'Edit Users', users_path, :class=>"small_icon user_16"
+    = link_to 'Create Groups', new_group_path, :class=>"small_icon membership_add_16"
+    = link_to 'Edit Groups', groups_path, :class=>"small_icon group_contributions_16"
 
