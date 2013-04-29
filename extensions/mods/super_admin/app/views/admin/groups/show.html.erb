@@ -1,6 +1,6 @@
 <h1>Edit Groups</h1>
 <p>
-  <%= link_to '%s home page' % @group.name, url_for_group(@group) %>
+  <%= link_to '%s home page' % @group.name, entity_url(@group) %>
 </p>
 
 <table>
@@ -52,7 +52,9 @@
       Memberships:
     </th>
     <td>
-      <%= @group.users.collect{|u| link_to u.login, user_path(u) }.join(' ') %>
+      <%- @group.users.each do |user| -%>
+        <%= link_to user.login, entity_url(user) -%>
+      <%- end -%>
     </td>
   </tr>
   <tr>

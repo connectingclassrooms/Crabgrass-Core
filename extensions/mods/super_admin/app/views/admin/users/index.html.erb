@@ -13,11 +13,12 @@
   </span>
 </div>
 
-<%= letter_pagination_links(letter_pagination_url, :available_letters => @pagination_letters) %>
+<%#= letter_pagination_links(letter_pagination_url, :available_letters => @pagination_letters) %>
+<%= alphabetical_filter :controller => 'admin/users' %>
 
 <%= render :partial => 'user_table' %>
 
 <%= pagination_links @users %>
 
-<p><%= link_to_with_icon 'plus', 'New user', new_user_path %></p>
+<p><%= link_to 'New user', new_user_path, :icon => 'plus' %></p>
 
