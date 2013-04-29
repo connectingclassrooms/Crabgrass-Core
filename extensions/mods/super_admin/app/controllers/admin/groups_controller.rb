@@ -4,8 +4,6 @@ class Admin::GroupsController < Admin::BaseController
 
   permissions 'admin/super'
 
-  cache_sweeper :social_activities_sweeper, :only => [:update, :create, :destroy]
-
   # GET /groups
   # GET /groups.xml
   def index

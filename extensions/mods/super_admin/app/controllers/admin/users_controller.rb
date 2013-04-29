@@ -4,8 +4,6 @@ class Admin::UsersController < Admin::BaseController
 
   permissions 'admin/super'
 
-  cache_sweeper :social_activities_sweeper, :only => [:destroy]
-
   # GET /users
   # GET /users.xml
   def index
