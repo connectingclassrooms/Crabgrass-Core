@@ -14,14 +14,14 @@ require "whenever/capistrano"
 ## Items to configure
 ##
 
-set :application, "crabgrass"
+set :application, "cc.net"
 set :user, "crabgrass"
 
 set :repository, "git://labs.riseup.net/crabgrass-core.git"
 set :branch, "develop"
 
 deploy_host = ""
-staging_host = "we.dev.riseup.net"
+staging_host = "testcc.net"
 
 staging = ENV['TARGET'] != 'production'
 
