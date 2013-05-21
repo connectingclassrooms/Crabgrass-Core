@@ -1,4 +1,3 @@
-
 self.override_views = false
 self.load_once = false
 
@@ -11,6 +10,11 @@ apply_mixin_to_model(Request, RequestExtension)
 apply_mixin_to_model(RequestToJoinUs, RequestToJoinUsExtension)
 
 require File.expand_path('routes', File.dirname(__FILE__))
+require File.expand_path('lib/modify_theme', File.dirname(__FILE__))
+
+ApplicationController.class_eval do
+  include ModifyTheme
+end
 
 # this isn't necessary:
 #apply_mixin_to_model(User, UserExtension::SuperAdmin)
