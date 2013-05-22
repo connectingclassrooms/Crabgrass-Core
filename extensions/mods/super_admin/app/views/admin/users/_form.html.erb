@@ -12,8 +12,7 @@
 </tr>
 <tr>
   <td><%= f.label :language %></td>
-  <td><%= "broken" # f.select 'language', Language.find(:all).to_select(:name, :code), { :include_blank => true }
-    %></td>
+  <td><%= f.select 'language', all_languages_for_select, include_blank: true %></td>
 </tr>
 <tr>
   <td><%= f.label :password %></td>
