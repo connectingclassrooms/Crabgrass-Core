@@ -106,7 +106,7 @@ class Admin::UsersController < Admin::BaseController
     @user.destroy
 
     respond_to do |format|
-      format.html { redirect_to(users_path) }
+      format.html { redirect_to(admin_users_path) }
       format.xml  { head :ok }
     end
   end
