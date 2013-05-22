@@ -4,6 +4,11 @@ class Admin::BaseController < ApplicationController
 
   prepend_before_filter :restore_superadmin, :only => :index
 
+  def setup_context
+    @context = Admin::Context.new(current_user)
+    super
+  end
+
   def restore_superadmin
     if session[:admin]
       # if session[:admin] is set, then a superadmin user has assumed the identity
