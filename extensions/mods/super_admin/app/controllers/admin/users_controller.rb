@@ -64,6 +64,7 @@ class Admin::UsersController < Admin::BaseController
         format.html { redirect_to(@user) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else
+        error @user
         format.html { render :action => "new" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
@@ -76,17 +77,7 @@ class Admin::UsersController < Admin::BaseController
   # PUT /users/1.xml
   def update
 
-    # save or update avatar
-    if @user.avatar
-      for size in %w(xsmall small medium large xlarge)
-        expire_page :controller => 'static', :action => 'avatar', :id => @user.avatar.id, :size => size
-      end
-      @user.avatar.image_file = params[:image][:image_file]
-      @user.avatar.save!
-    else
-      avatar = Avatar.create(params[:image])
-      @user.avatar = avatar
-    end
+    save_or_update_avatar if params[:image]
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
@@ -94,6 +85,10 @@ class Admin::UsersController < Admin::BaseController
         format.html { redirect_to(@user) }
         format.xml  { head :ok }
       else
+        error @user
+        # we need to reset the login so the form still works on the
+        # same user.
+        @user.login = @user.login_was if @user.login_changed?
         format.html { render :action => "edit" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
@@ -115,4 +110,18 @@ class Admin::UsersController < Admin::BaseController
   def fetch_user_by_login
     @user = User.find_by_login(params[:id])
   end
+
+  def save_or_update_avatar
+    if @user.avatar
+      for size in %w(xsmall small medium large xlarge)
+        expire_page :controller => 'static', :action => 'avatar', :id => @user.avatar.id, :size => size
+      end
+      @user.avatar.image_file = params[:image][:image_file]
+      @user.avatar.save!
+    else
+      avatar = Avatar.create(params[:image])
+      @user.avatar = avatar
+    end
+  end
+
 end

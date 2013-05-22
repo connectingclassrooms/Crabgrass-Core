@@ -53,6 +53,7 @@ class Admin::GroupsController < Admin::BaseController
         format.html { redirect_to(@group) }
         format.xml  { render :xml => @group, :status => :created, :location => @group }
       else
+        error @group
         format.html { render :action => "new" }
         format.xml  { render :xml => @group.errors, :status => :unprocessable_entity }
       end
@@ -63,17 +64,7 @@ class Admin::GroupsController < Admin::BaseController
   # PUT /groups/1.xml
   def update
 
-    # save or update avatar
-    if @group.avatar && params[:image_file]
-      for size in %w(xsmall small medium large xlarge)
-        expire_page :controller => 'static', :action => 'avatar', :id => @group.avatar.id, :size => size
-      end
-      @group.avatar.image_file = params[:image_file]
-      @group.avatar.save!
-    elsif params[:image_file]
-      avatar = Avatar.create(:image_file => params[:image_file])
-      @group.avatar = avatar
-    end
+    save_or_update_avatar if params[:image_file]
 
     respond_to do |format|
       if @group.update_attributes(params[:group])
@@ -81,6 +72,10 @@ class Admin::GroupsController < Admin::BaseController
         format.html { redirect_to(@group) }
         format.xml  { head :ok }
       else
+        error @group
+        # we need to reset the login so the form still works on the
+        # same user.
+        @group.name = @group.name_was if @group.name_changed?
         format.html { render :action => "edit" }
         format.xml  { render :xml => @group.errors, :status => :unprocessable_entity }
       end
@@ -101,6 +96,19 @@ class Admin::GroupsController < Admin::BaseController
   private
   def fetch_group_by_name
     @group = Group.find_by_name(params[:id])
+  end
+
+  def save_or_update_avatar
+    if @group.avatar
+      for size in %w(xsmall small medium large xlarge)
+        expire_page :controller => 'static', :action => 'avatar', :id => @group.avatar.id, :size => size
+      end
+      @group.avatar.image_file = params[:image_file]
+      @group.avatar.save!
+    else
+      avatar = Avatar.create(:image_file => params[:image_file])
+      @group.avatar = avatar
+    end
   end
 
 end
