@@ -137,9 +137,9 @@ namespace :test do
           puts 'ERROR: mod plugin named "%s" not found.' % ENV['MOD']
           exit
         end
-        Engines::Testing.setup_plugin_fixtures([plugin])
+        #Engines::Testing.setup_plugin_fixtures([plugin])
       else
-        Engines::Testing.setup_plugin_fixtures
+        #Engines::Testing.setup_plugin_fixtures
       end
     end
 

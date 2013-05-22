@@ -1,5 +1,5 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../../test/test_helper')
-Engines::Testing.set_fixture_path
+require_relative '../../../../test/test_helper'
+#Engines::Testing.set_fixture_path
 
 #class Test::Unit::TestCase
 #  self.use_transactional_fixtures = true
