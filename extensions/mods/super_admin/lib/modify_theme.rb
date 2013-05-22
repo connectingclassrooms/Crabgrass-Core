@@ -2,7 +2,6 @@ module ModifyTheme
   extend ActiveSupport::Concern
 
   included do
-    info "loading superadmin application controller extensions"
     before_filter :modify_theme
   end
 
@@ -15,7 +14,6 @@ module ModifyTheme
         visible { may_admin_site? }
         url     '/admin'
         active  { controller.class.name.include?('Admin') }
-        html    :partial => '/layouts/global/nav/admin_menu'
 
         context_section :super_admin do
           label { :super_admin.t }
