@@ -12,13 +12,21 @@ module ModifyTheme
       global_section :admin do
         label   { :admin.t }
         visible { may_admin_site? }
-        url     '/admin'
+        url     '/admin/users'
         active  { controller.class.name.include?('Admin') }
 
         context_section :super_admin do
           label { :super_admin.t }
           active { controller?('admin/groups', 'admin/users') }
           visible { true || may_super? }
+
+          local_section :users do
+            label { "Edit Users" }
+            url   { admin_users_path }
+            active { controller?('admin/users') && action?(:index) }
+            visible { true || may_super? }
+            icon :user
+          end
 
           local_section :new_user do
             label { "Create New User" }
@@ -28,12 +36,12 @@ module ModifyTheme
             icon :user_add
           end
 
-          local_section :users do
-            label { "Edit Users" }
-            url   { admin_users_path }
-            active { controller?('admin/users') && action?(:index) }
+          local_section :groups do
+            label { "Edit Groups" }
+            url   { admin_groups_path }
+            active { controller?('admin/groups') && action?(:index) }
             visible { true || may_super? }
-            icon :user
+            icon :group_contributions
           end
 
           local_section :new_group do
@@ -44,13 +52,6 @@ module ModifyTheme
             icon :membership_add
           end
 
-          local_section :groups do
-            label { "Edit Groups" }
-            url   { admin_groups_path }
-            active { controller?('admin/groups') && action?(:index) }
-            visible { true || may_super? }
-            icon :group_contributions
-          end
         end
 
       end
