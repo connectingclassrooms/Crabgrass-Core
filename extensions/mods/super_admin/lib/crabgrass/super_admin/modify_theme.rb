@@ -1,4 +1,4 @@
-module ModifyTheme
+module Crabrass::SuperAdmin::ModifyTheme
   extend ActiveSupport::Concern
 
   included do
