@@ -12,11 +12,12 @@ apply_mixin_to_model(RequestToJoinUs, RequestToJoinUsExtension)
 require File.expand_path('routes', File.dirname(__FILE__))
 require File.expand_path('lib/modify_theme', File.dirname(__FILE__))
 
-ApplicationController.class_eval do
+extend_model 'ApplicationController' do
   include ModifyTheme
 end
 
-# this isn't necessary:
-#apply_mixin_to_model(User, UserExtension::SuperAdmin)
-# because this is in the core user model:
-#  include UserExtension::SuperAdmin rescue NameError
+extend_model :User do
+  include UserExtension::SuperAdmin
+  include UserExtension::Sorting
+end
+

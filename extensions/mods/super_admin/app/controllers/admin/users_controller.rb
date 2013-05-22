@@ -8,16 +8,8 @@ class Admin::UsersController < Admin::BaseController
   # GET /users.xml
   def index
     @letter = (params[:letter] || '')
-    if params[:show] == 'active'
-      @users = User.alphabetized(@letter).active_since(1.month.ago).paginate(:page => params[:page])
-      @pagination_letters = (User.on(current_site).active_since(1.month.ago).logins_only).collect{|u| u.login.first.upcase}.uniq
-    elsif params[:show] == 'inactive'
-      @users = User.inactive_since(1.month.ago).alphabetized(@letter).paginate(:page => params[:page])
-      @pagination_letters = (User.inactive_since(1.month.ago).logins_only).collect{|u| u.login.first.upcase}.uniq
-    else
-      @users = User.alphabetized(@letter).paginate(:page => params[:page])
-      @pagination_letters = (User.logins_only).collect{|u| u.login.first.upcase}.uniq
-    end
+    @users = users_to_show.alphabetized(@letter).paginate(pagination_params)
+    @pagination_letters = users_to_show.logins_only.map{|u| u.initial}.uniq
     @show = params[:show]
     respond_to do |format|
       format.html # index.html.erb
@@ -121,6 +113,19 @@ class Admin::UsersController < Admin::BaseController
     else
       avatar = Avatar.create(params[:image])
       @user.avatar = avatar
+    end
+  end
+
+  protected
+
+  def users_to_show
+    case params[:show]
+    when 'active'
+      User.active_since(1.month.ago)
+    when 'inactive'
+      User.inactive_since(1.month.ago)
+    else
+      User
     end
   end
 
