@@ -4,6 +4,10 @@ class Admin::BaseController < ApplicationController
 
   prepend_before_filter :restore_superadmin, :only => :index
 
+  permissions 'admin/super'
+  guard :may_super?
+  before_filter :login_required
+
   def setup_context
     @context = Admin::Context.new(current_user)
     super
