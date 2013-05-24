@@ -10,7 +10,6 @@ def setup_site_with_moderation
       moderation_group: @mods,
       name: "moderation",
       domain: "test.host"
-    @mods.site = @site
 end
 
 #class Test::Unit::TestCase

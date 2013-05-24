@@ -1,9 +1,7 @@
-module ModerationSiteExtension
+module Crabgrass::Moderation
+  module Extends::Site
+    extend ActiveSupport::Concern
 
-  module ClassMethods
-  end
-
-  module InstanceMethods
     # We load the moderation group into Conf as fallback.
     # Unlike for superadmin we do NOT overwrite what is in the database.
     def load_config_with_moderation(site_config)
@@ -16,13 +14,12 @@ module ModerationSiteExtension
         self.update_attribute :moderation_group, Group.find_by_name(name)
       end
     end
-  end
 
-  def self.add_to_class_definition
-    lambda do
+    included do
       belongs_to :moderation_group, :class_name => "Group"
-      alias_method_chain :load_config, :moderation
+     #  alias_method_chain :load_config, :moderation
     end
+
   end
 end
 

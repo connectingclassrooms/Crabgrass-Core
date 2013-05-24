@@ -9,9 +9,10 @@ Rails.application.config.to_prepare do
     acts_as_rateable
   end
 
-  require 'moderation_listener'
-  require 'page_view_listener'
+end
 
+# require 'moderation_listener'
+# require 'page_view_listener'
 
 
 # apply_mixin_to_model(Site, ModerationSiteExtension)
