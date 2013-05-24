@@ -5,6 +5,8 @@ self.load_once = false
 
 
 Rails.application.config.to_prepare do
+  require File.expand_path('routes', File.dirname(__FILE__))
+
   Page.class_eval do
     acts_as_rateable
   end
