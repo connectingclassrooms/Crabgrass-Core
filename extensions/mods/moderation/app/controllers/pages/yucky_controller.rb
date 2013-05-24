@@ -1,4 +1,4 @@
-class BasePage::YuckyController < BasePage::SidebarController
+class Pages::YuckysController < Pages::SidebarsController
   include ModerationNotice
 
   helper 'base_page'

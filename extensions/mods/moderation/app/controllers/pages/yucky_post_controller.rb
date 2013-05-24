@@ -1,4 +1,4 @@
-class BasePage::YuckyPostController < BasePage::SidebarController
+class Pages::YuckyPostsController < Pages::SidebarsController
 
   permissions 'admin/moderation'
   permissions 'posts'
