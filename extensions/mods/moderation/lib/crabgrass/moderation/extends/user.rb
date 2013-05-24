@@ -3,7 +3,7 @@ module Crabgrass::Moderation
     extend ActiveSupport::Concern
 
     included do
-      has_many :moderated_flags, :dependent: :destroy
+      has_many :moderated_flags, dependent: :destroy
     end
 
     def moderator?(site=Site.current)
