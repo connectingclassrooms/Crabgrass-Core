@@ -17,15 +17,22 @@ end
 # require 'page_view_listener'
 
 
-# apply_mixin_to_model(Site, ModerationSiteExtension)
-# apply_mixin_to_model(Page, PageFlagExtension)
-# apply_mixin_to_model(Post, PostFlagExtension)
-# apply_mixin_to_model(Group, GroupModerationExtension)
-
 extend_model :Site do
   include Crabgrass::Moderation::Extends::Site
 end
 
 extend_model :User do
   include Crabgrass::Moderation::Extends::User
+end
+
+extend_model :Page do
+  include Crabgrass::Moderation::Extends::Page
+end
+
+extend_model :Post do
+  include Crabgrass::Moderation::Extends::Post
+end
+
+extend_model :Group do
+  include Crabgrass::Moderation::Extends::Group
 end

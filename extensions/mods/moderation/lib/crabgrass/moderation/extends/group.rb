@@ -1,7 +1,8 @@
-module GroupModerationExtension
+module Crabgrass::Moderation
+  module Extends::Group
+    extend ActiveSupport::Concern
 
-  def self.add_to_class_definition
-    lambda do
+    included do
       named_scope :moderating,
         :include => :profiles,
         :conditions => ["profiles.admins_may_moderate = (?)", true]
@@ -11,9 +12,7 @@ module GroupModerationExtension
         :select => 'groups.*',
         :conditions => ["profiles.admins_may_moderate = (?)", true]
     end
-  end
 
-  module InstanceMethods
     def admins_moderate_content?
       self.profiles.public.admins_may_moderate?
     end
