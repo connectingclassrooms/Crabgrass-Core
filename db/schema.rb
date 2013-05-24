@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130505182524) do
+ActiveRecord::Schema.define(:version => 20130524170205) do
 
   create_table "activities", :force => true do |t|
     t.integer  "subject_id"
@@ -372,6 +372,8 @@ ActiveRecord::Schema.define(:version => 20130505182524) do
     t.string   "sender_name"
     t.string   "level"
     t.datetime "deleted_at"
+    t.integer  "yuck_count",                        :default => 0
+    t.boolean  "vetted",                            :default => false
   end
 
   add_index "messages", ["channel_id"], :name => "index_messages_on_channel_id"
@@ -379,6 +381,20 @@ ActiveRecord::Schema.define(:version => 20130505182524) do
 
   create_table "migrations_info", :force => true do |t|
     t.datetime "created_at"
+  end
+
+  create_table "moderated_flags", :force => true do |t|
+    t.datetime "vetted_at"
+    t.integer  "vetted_by_id"
+    t.datetime "deleted_at"
+    t.integer  "deleted_by_id"
+    t.string   "reason_flagged"
+    t.string   "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.integer  "flagged_id",     :null => false
+    t.string   "flagged_type"
   end
 
   create_table "notices", :force => true do |t|
@@ -468,7 +484,7 @@ ActiveRecord::Schema.define(:version => 20130505182524) do
     t.string   "created_by_login"
     t.integer  "flow"
     t.integer  "stars_count",                              :default => 0
-    t.integer  "views_count",                              :default => 0,    :null => false
+    t.integer  "views_count",                              :default => 0,     :null => false
     t.integer  "owner_id"
     t.string   "owner_type"
     t.string   "owner_name"
@@ -479,6 +495,9 @@ ActiveRecord::Schema.define(:version => 20130505182524) do
     t.integer  "site_id"
     t.datetime "happens_at"
     t.integer  "cover_id"
+    t.boolean  "public_requested",                         :default => false
+    t.boolean  "vetted",                                   :default => false
+    t.integer  "yuck_count",                               :default => 0
   end
 
   add_index "pages", ["type"], :name => "index_pages_on_type"
@@ -531,6 +550,8 @@ ActiveRecord::Schema.define(:version => 20130505182524) do
     t.datetime "deleted_at"
     t.string   "type"
     t.integer  "page_terms_id"
+    t.boolean  "vetted",                              :default => false
+    t.integer  "yuck_count",                          :default => 0
   end
 
   add_index "posts", ["user_id"], :name => "index_posts_on_user_id"
@@ -586,6 +607,7 @@ ActiveRecord::Schema.define(:version => 20130505182524) do
     t.text     "summary_html",           :limit => 2147483647
     t.integer  "geo_location_id"
     t.integer  "picture_id"
+    t.boolean  "admins_may_moderate"
   end
 
   add_index "profiles", ["entity_id", "entity_type", "language", "stranger", "peer", "friend", "foe"], :name => "profiles_index"
@@ -683,6 +705,7 @@ ActiveRecord::Schema.define(:version => 20130505182524) do
     t.string  "profiles"
     t.string  "profile_fields"
     t.boolean "require_user_full_info"
+    t.integer "moderation_group_id"
   end
 
   add_index "sites", ["name"], :name => "index_sites_on_name", :unique => true

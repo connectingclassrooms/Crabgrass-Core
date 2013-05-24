@@ -1,7 +1,6 @@
 class Pages::YuckyPostsController < Pages::SidebarsController
 
   permissions 'admin/moderation'
-  permissions 'posts'
 
   before_filter :login_required
 
