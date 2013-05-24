@@ -5,14 +5,14 @@ class Admin::DiscussionPostsControllerTest < ActionController::TestCase
 
   def setup
     setup_site_with_moderation
-    @flagger = User.make
+    @flagger = FactoryGirl.create :user
   end
 
   def test_yucky_shows_up
     with_site "moderation" do
       login_as @mod
       assert_none_in_view 'new'
-      new_post = Post.make
+      new_post = FactoryGirl.create :post
       make_yucky(new_post)
       assert_in_view 'new', [new_post]
     end
@@ -26,7 +26,7 @@ class Admin::DiscussionPostsControllerTest < ActionController::TestCase
   def test_deleted_shows_up
     with_site "moderation" do
       login_as @mod
-      new_post = Post.make
+      new_post = FactoryGirl.create :post
       make_yucky(new_post)
       post :trash, :id => new_post.id,
         :view => :deleted

@@ -56,7 +56,7 @@ class Admin::PagesControllerTest < ActionController::TestCase
 
   def test_update_restricted_to_moderators
     with_site "moderation" do
-      user = User.make
+      user = FactoryGirl.create :user
       login_as user
       page = pages(:video1) #user does not have access to video1
       assert !page.vetted
