@@ -1,0 +1,9 @@
+%br
+%h3 Super Admin Powers
+%div.side_list
+  %ul
+    = link_to 'Create User', new_admin_user_path, :class => "icon user_add_16"
+    = link_to 'Edit Users', users_path, :class=>"icon user_16"
+    = link_to 'Create Groups', new_group_path, :class=>"icon membership_add_16"
+    = link_to 'Edit Groups', groups_path, :class=>"icon group_contributions_16"
+
