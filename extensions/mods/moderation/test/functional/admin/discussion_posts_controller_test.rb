@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../test_helper'
+require_relative '../../test_helper'
 
 class Admin::DiscussionPostsControllerTest < ActionController::TestCase
   fixtures :pages, :user_participations, :group_participations, :discussions

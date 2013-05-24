@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../test_helper'
+require_relative '../../test_helper'
 
 class Admin::PagesControllerTest < ActionController::TestCase
 
@@ -91,7 +91,7 @@ class Admin::PagesControllerTest < ActionController::TestCase
       assert_redirected_to :action => 'index'
       assert !Page.first.public?
       assert !Page.first.public_requested?
-      get :update_public, :id => Page.first.id, :public => false 
+      get :update_public, :id => Page.first.id, :public => false
       assert_response :redirect
       assert_redirected_to :action => 'index'
       assert !Page.first.public?

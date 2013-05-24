@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require_relative '../test_helper'
 class GroupsControllerTest < ActionController::TestCase
   fixtures :users, :groups, :memberships, :sites
 

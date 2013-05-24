@@ -1,15 +1,15 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../../test/test_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../../../test/blueprints')
+require_relative '../../../../test/test_helper'
 
-Engines::Testing.set_fixture_path
+# Engines::Testing.set_fixture_path
 
 def setup_site_with_moderation
-    @mod = User.make :login=>"mod"
-    @mods = Group.make_owned_by :user=>@mod
+    @mod = FactoryGirl.create :user, login: "mod"
+    @mods = FactoryGirl.create :group
     @mods.add_user! @mod
-    @site = Site.make :moderation_group => @mods,
-      :name => "moderation",
-      :domain => "test.host"
+    @site = FactoryGirl.create :site,
+      moderation_group: @mods,
+      name: "moderation",
+      domain: "test.host"
     @mods.site = @site
 end
 
