@@ -19,7 +19,7 @@
       <td><%= listing_custom_column_content(@page, @current_view) %></td>
       <td><%= list_created_by(@page) %></td>
       <td>
-        <% VIEW_ACTIONS[@current_view].each do |action| %>
+        <% actions_for_view.each do |action| %>
           <%= button_to_action(@page, action) %>
         <% end %>
       </td>

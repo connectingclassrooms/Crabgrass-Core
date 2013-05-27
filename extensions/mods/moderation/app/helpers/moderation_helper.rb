@@ -9,11 +9,11 @@ module ModerationHelper
     link_to_active( title, :controller => controller_path, :action => 'index', :view => view)
   end
 
-  def actions_for(tab)
-    TAB_ACTIONS[tab]
+  def actions_for_view
+    VIEW_ACTIONS[@current_view]
   end
 
-  TAB_ACTIONS = {
+  VIEW_ACTIONS = {
     'new'     => ['approve', 'trash'],
     'vetted'  => ['trash'],
     'deleted' => ['undelete']
