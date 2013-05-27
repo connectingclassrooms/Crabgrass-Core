@@ -1,10 +1,10 @@
-class Pages::ParticipationsController < Pages::SidebarsController
+class Pages::PublicationsController < Pages::SidebarsController
 
   before_filter :login_required
 
   verify :method => :post, :only => [:move]
 
-  def update_public
+  def create
     if current_user.moderator?
       @page.public = ('true' == params[:public])
     else
@@ -15,6 +15,7 @@ class Pages::ParticipationsController < Pages::SidebarsController
     render :template => 'base_page/participation/reset_public_line'
   end
 
+  # TODO: what do we do with this?
   def close_public_requested
     close_popup
   end

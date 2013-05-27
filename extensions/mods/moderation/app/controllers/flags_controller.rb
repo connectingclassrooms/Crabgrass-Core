@@ -1,4 +1,4 @@
-class Pages::YuckysController < Pages::SidebarsController
+class Admin::FlagsController < Pages::SidebarsController
   include ModerationNotice
 
   helper 'base_page'
@@ -8,37 +8,29 @@ class Pages::YuckysController < Pages::SidebarsController
 
   before_filter :login_required
 
-  def show_add
-    if @post
-      form_url = {:controller => 'yucky', :action => 'add', :post_id => @post.id, :page_id => @page.id }
-    elsif @page
-      form_url = {:controller => 'yucky', :action => 'add', :page_id => @page.id }
-    end
+  def new
+    new_params = @post ? { post_id: @post.id } : { page_id: @page.id }
+    form_url = admin_flags_url(new_params.merge(method: :post)
     render :partial => 'base_page/yucky/show_add_popup', :locals => {:form_url => form_url}
   end
 
-  def add
+  def create
     if params[:flag]
       @flag.add({:reason=>params[:reason],:comment=>params[:comment]}) unless @flag.nil?
-      if @post
-        summary = truncate(@post.body,400)
-        url = page_url(@post.discussion.page, :only_path => false) + "#posts-#{@post.id}"
-      elsif @page
-        summary = @page.summary
-        url = page_url(@page)
-      end
-      send_moderation_notice(url, summary)
+      send_moderation_notice(@flagged)
     end
     close_popup
   end
 
-  def remove
+  def destroy
     ### for some reason we update the :yucky_count in the page/post/chat model
     @flag.destroy
     @flagged.update_attribute(:yuck_count, @flagged.moderated_flags.count)
     if @post
       render :update do |page|
-        page.replace_html "post-body-#{@post.id}", :partial => 'posts/post_body', :locals => {:post => @post}
+        page.replace_html "post-body-#{@post.id}",
+          partial: 'posts/post_body',
+          locals: {post: @post}
       end
     elsif @page
       redirect_to referer

@@ -7,8 +7,20 @@ this will create the routes
 
 Crabgrass.mod_routes do |map|
   map.namespace :admin do |admin|
-    admin.resources :pages
-    admin.resources :wall_posts
-    admin.resources :discussion_posts
+
+    admin.resources :posts do |posts|
+      posts.resources :flags
+    end
+
+    admin.resources :pages do |pages|
+      pages.resources :flags
+      pages.resources :publications
+    end
   end
+
+  map.resources :pages, :only => [] do |pages|
+    pages.resources :flags
+    pages.resources :publications
+  end
+
 end
