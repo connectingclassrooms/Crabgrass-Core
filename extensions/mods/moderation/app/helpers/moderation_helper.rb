@@ -1,4 +1,4 @@
-module Admin::AllHelper
+module ModerationHelper
 
   def button_to_action(action)
     button_to action.to_s.capitalize,

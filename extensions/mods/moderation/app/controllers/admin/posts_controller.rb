@@ -1,8 +1,8 @@
 class Admin::PostsController < Admin::BaseController
-
-  verify :method => :post, :only => [:update]
+  include ModerationFinders
 
   permissions 'admin/moderation'
+  helper 'moderation'
 
   def index
     params[:view] ||= 'new'
@@ -54,6 +54,16 @@ class Admin::PostsController < Admin::BaseController
     @flag = @post.moderated_flags.first
   end
 
+  def path_for_view
+    VIEW_PATH[params[:view]]
+  end
+
+  VIEW_PATH = {
+    'all'              => "/descending/updated_at",
+    'new'              => "/descending/created_at/moderation/new",
+    'vetted'           => "/descending/created_at/moderation/vetted",
+    'deleted'          => "/descending/created_at/moderation/deleted"
+  }
 
 end
 

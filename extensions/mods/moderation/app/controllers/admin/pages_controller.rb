@@ -1,6 +1,8 @@
 class Admin::PagesController < Admin::BaseController
+  include ModerationFinders
 
   permissions 'admin/moderation'
+  helper 'moderation'
 
   def index
     params[:view] ||= 'new'
@@ -35,21 +37,17 @@ class Admin::PagesController < Admin::BaseController
   end
 
   def path_for_view
-    case params[:view]
-    when 'all'
-      then "/descending/updated_at"
-    when 'public requested'
-      then "/descending/created_at/public_requested/"
-    when 'public'
-      then "/descending/created_at/public/"
-    when 'new'
-      then "/descending/created_at/moderation/new"
-    when 'vetted'
-      then "/descending/created_at/moderation/vetted"
-    when 'deleted'
-      then "/descending/created_at/moderation/deleted"
-    end
+    VIEW_PATH[params[:view]]
   end
+
+  VIEW_PATH = {
+    'all'              => "/descending/updated_at",
+    'public requested' => "/descending/created_at/public_requested/",
+    'public'           => "/descending/created_at/public/",
+    'new'              => "/descending/created_at/moderation/new",
+    'vetted'           => "/descending/created_at/moderation/vetted",
+    'deleted'          => "/descending/created_at/moderation/deleted"
+  }
 
   def authorized?
     if action?(:index)

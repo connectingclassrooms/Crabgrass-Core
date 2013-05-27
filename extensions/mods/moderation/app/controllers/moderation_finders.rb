@@ -1,4 +1,5 @@
-class Admin::BaseController
+module ModerationFinders
+  extend ActiveSupport::Concern
 
   # to use with path_finder:
   def moderation_options
@@ -6,4 +7,5 @@ class Admin::BaseController
       {} :
       options_for_groups(Group.with_admin(current_user).moderated)
   end
+
 end
