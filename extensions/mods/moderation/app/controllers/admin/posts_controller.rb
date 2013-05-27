@@ -17,11 +17,11 @@ class Admin::PostsController < Admin::BaseController
   end
 
   # for vetting:       params[:post][:vetted] == true
-  # for deleting:      params[:post]['flow']  == FLOW[:deleted]
-  # for undeleting:    params[:post]['flow']  == nil
+  # for deleting:      params[:post]['deleted_at']  == Time.now
+  # for undeleting:    params[:post]['deleted_at']  == nil
   def update
     @posts = Post.find(params[:id])
-    post_attrs = params[:post].symbolize_keys.slice :vetted, :flow
+    post_attrs = params[:post].symbolize_keys.slice :vetted, :deleted_at
     @posts.update_attributes(post_attrs)
     redirect_to :action => 'index', :view => params[:view]
   end

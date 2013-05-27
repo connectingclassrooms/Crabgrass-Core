@@ -17,9 +17,11 @@ module ModerationHelper
     'new'     => ['approve', 'trash'],
     'vetted'  => ['trash'],
     'deleted' => ['undelete']
-  }
+  }.with_indifferent_access
 
-  def button_to_action(action)
+  def button_to_action(page, action)
+    params = { method: :post, view: @current_view }
+    debugger unless ACTION_PARAMS[action]
     button_to action.to_s.capitalize,
       admin_page_url(page, params.merge(ACTION_PARAMS[action]))
   end
@@ -28,10 +30,10 @@ module ModerationHelper
     remove_public:  { public: false },
     reject_public:  { public: false },
     approve_public: { public: true },
-    delete:         { flow:   FLOW[:deleted] },
+    trash:          { flow:   FLOW[:deleted] },
     approve:        { vetted: true },
     undelete:       { flow:   nil }
-  }
+  }.with_indifferent_access
 
   def flags_for_details(flagged_id, type)
     ModeratedFlag.find_all_by_type_and_flagged_id(type, flagged_id)
