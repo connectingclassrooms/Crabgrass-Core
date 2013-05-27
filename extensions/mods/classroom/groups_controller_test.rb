@@ -1,5 +1,5 @@
 require_relative '../test_helper'
-class GroupsControllerTest < ActionController::TestCase
+class Groups::ContributionsControllerTest < ActionController::TestCase
   fixtures :users, :groups, :memberships, :sites
 
   def setup
@@ -12,13 +12,13 @@ class GroupsControllerTest < ActionController::TestCase
     @page.save
     # this is done by the student mod on cc.net but testing
     # two mods in parallel is troublesome.
-    @controller.stubs(:may_contributions_group?).returns true
+    controller.stubs(:may_contributions_group?).returns true
   end
 
   def test_contributions
     with_site :site1, :moderation_group => groups(:rainbow) do
       login_as :blue
-      get :contributions, :id => groups(:animals).to_param
+      get :index, :id => groups(:animals).to_param
       assert_response :success
       assert assigns['pages'].include? @page
     end
@@ -30,7 +30,7 @@ class GroupsControllerTest < ActionController::TestCase
     @page.save
     with_site :site1, :moderation_group => groups(:rainbow) do
       login_as :blue
-      get :contributions, :id => groups(:animals).to_param
+      get :index, :id => groups(:animals).to_param
       assert_response :success
       assert pages = assigns['pages']
       assert pages.select{|p| p.updated_by_login == 'penguin'}.include? @page
@@ -42,7 +42,7 @@ class GroupsControllerTest < ActionController::TestCase
     with_site :site1, :moderation_group => groups(:rainbow) do
       login_as :blue
       Site.any_instance.stubs(:super_admin_group).returns(groups(:animals))
-      get :contributions, :id => groups(:animals).to_param
+      get :index, :id => groups(:animals).to_param
       assert_response :success
       assert_equal [], assigns['pages']
     end
