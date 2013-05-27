@@ -26,7 +26,7 @@ class Admin::PagesControllerTest < ActionController::TestCase
   def test_update
     with_site "moderation" do
       login_as @mod
-      page = pages(:video1) #blue does not have access to video1
+      page = FactoryGirl.create :page
       # test change moderation flags should be possible never the less.
       [:public, :vetted].each do |para|
         post :update, :id => page.id, :page => {para => true}
@@ -46,7 +46,7 @@ class Admin::PagesControllerTest < ActionController::TestCase
   def test_update_restricted_to_moderation
     with_site "moderation" do
       login_as @mod
-      page = pages(:video1) #blue does not have access to video1
+      page = FactoryGirl.create :page
       old_title = page.title
       post :update, :id => page.id, :page => {:title => "pwned"}
       assert_equal old_title, page.reload.title,
@@ -58,7 +58,7 @@ class Admin::PagesControllerTest < ActionController::TestCase
     with_site "moderation" do
       user = FactoryGirl.create :user
       login_as user
-      page = pages(:video1) #user does not have access to video1
+      page = FactoryGirl.create :page
       assert !page.vetted
       post :update, :id => page.id, :page => {:vetted => true}
       assert !page.vetted,
