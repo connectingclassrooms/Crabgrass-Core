@@ -1,4 +1,5 @@
 class Admin::PostsController < Admin::BaseController
+
   verify :method => :post, :only => [:update]
 
   permissions 'admin/moderation'
@@ -23,6 +24,14 @@ class Admin::PostsController < Admin::BaseController
     post_attrs = params[:post].symbolize_keys.slice :vetted, :flow
     @posts.update_attributes(post_attrs)
     redirect_to :action => 'index', :view => params[:view]
+  end
+
+  protected
+
+  def fetch_posts(view)
+    options = moderation_options.merge :page => params[:page]
+    @flagged = Post.paginate_by_path(path_for_view, options)
+    @admin_active_tab = 'page_post_moderation'
   end
 
   def set_active_tab
