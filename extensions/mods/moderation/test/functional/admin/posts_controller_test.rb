@@ -11,18 +11,13 @@ class Admin::PostsControllerTest < ActionController::TestCase
   def test_yucky_shows_up
     with_site "moderation" do
       login_as @mod
-      assert_none_in_view 'new'
       new_post = FactoryGirl.create :post
+      assert_none_in_view 'new'
       make_yucky(new_post)
       assert_in_view 'new', [new_post]
     end
   end
 
-  # TODO: CRUD is currently broken.
-  # post :update, :id => new_post.id,
-  #  :post => {:deleted => :true},
-  #  :view => :deleted
-  # instead we do
   def test_deleted_shows_up
     with_site "moderation" do
       login_as @mod
@@ -33,8 +28,8 @@ class Admin::PostsControllerTest < ActionController::TestCase
         :view => :deleted
       assert_response :redirect
       assert_redirected_to :action => :index, :view => 'deleted'
-      assert_in_view 'deleted', [new_post]
       assert_none_in_view 'new'
+      assert_in_view 'deleted', [new_post]
     end
   end
 

@@ -13,6 +13,7 @@ Rails.application.config.to_prepare do
 
 end
 
+require 'crabgrass/moderation/search_filter'
 # require 'moderation_listener'
 # require 'page_view_listener'
 
