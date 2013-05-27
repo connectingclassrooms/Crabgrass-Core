@@ -26,11 +26,7 @@ module ModerationHelper
     elsif obj_type == "posts"
       icon = 'page_discussion_16'
       title = 'See All Posts'
-      controller = 'discussion_posts'
-    elsif obj_type == "chats"
-      icon = 'chat_16'
-      title = 'See All Chat Messages'
-      controller = 'chat_messages'
+      controller = 'posts'
     end
     link = "<span class='small_icon #{icon}'>" + link_to_active( title, { :controller => "admin/#{controller}", :action => 'index', :view => 'all' }, @current_view == 'all' ) + "</span>"
   end
