@@ -1,5 +1,4 @@
 class Admin::PagesController < Admin::BaseController
-  verify :method => :post, :only => [:update]
 
   permissions 'admin/moderation'
 
@@ -17,47 +16,14 @@ class Admin::PagesController < Admin::BaseController
     @flagged = Page.paginate_by_path(path_for_view, options)
   end
 
-  # for vetting:       params[:page]['vetted'] == true
-  # for hiding:        params[:page]['flow']   == FLOW[:deleted]
-  # for making public: params[:page]['public'] == true
+  #     vetting:       params[:page]['vetted'] == true
+  #     deleting:      params[:page]['flow']   == FLOW[:deleted]
+  #     undeleting:    params[:page]['flow']   == nil
+  #     making public: params[:page]['public'] == true
+  # making non public: params[:page]['public'] == true
   def update
     page_attrs = params[:page].symbolize_keys.slice :vetted, :flow, :public
     @page.update_attributes(page_attrs)
-    redirect_to :action => 'index', :view => params[:view]
-  end
-
-  # remote action. call with params[:view ] to view the desired pages. ie, hidden, vetted or pending
-  def filter
-    index
-  end
-
-  # Approves a page by marking :vetted = true
-  def approve
-    @flag.approve
-    redirect_to :action => 'index', :view => params[:view]
-  end
-
-  # Reject a page by setting flow=FLOW[:deleted], the page will now be 'deleted'(hidden)
-  def trash
-    @flag.trash
-    redirect_to :action => 'index', :view => params[:view]
-  end
-
-  # undelete a page by setting setting flow=nil, the page will now be 'undeleted'(unhidden)
-  def undelete
-    @flag.undelete
-    redirect_to :action => 'index', :view => params[:view]
-  end
-
-  # set page.public = true for a page which has its flag public_requested = true
-  def update_public
-    @page.update_attributes({:public => params[:public], :public_requested => false})
-    redirect_to :action => 'index', :view => params[:view]
-  end
-
-# set page.public = false
-  def remove_public
-    @page.update_attributes({:public => false, :public_requested => true})
     redirect_to :action => 'index', :view => params[:view]
   end
 
@@ -93,11 +59,11 @@ class Admin::PagesController < Admin::BaseController
     end
   end
 
-  prepend_before_filter :fetch_flagged
-  def fetch_flagged
-    return unless params[:id]
+  prepend_before_filter :fetch_page, only: :update
+
+  def fetch_page
     @page = Page.find params[:id]
-    @flag = @page.try.moderated_flags.first
+    raise_not_found(:page.t) unless @page
   end
 
 end

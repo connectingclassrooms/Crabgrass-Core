@@ -1,26 +1,16 @@
-module Admin::AllHelper
-
-  def tab_link(title, view=nil, options={})
-    view ||= title
-    obj_type = options[:obj_type] || 'pages'
-    controller_path = 'admin/pages' if obj_type == 'pages'
-    controller_path = 'admin/discussion_posts' if obj_type == 'posts'
-    link_to_active( title, :controller => controller_path, :action => 'index', :view => view)
+module Admin::AllHelperams = { method: :post, view: @current_view }
+    button_to action.to_s.capitalize,
+      admin_page_url(page, params.merge(ACTION_PARAMS[action]))
   end
 
-  def actions_for(tab)
-    if tab== 'new'
-      ['approve', 'trash']
-    elsif tab=='vetted'
-      ['trash']
-    elsif tab=='deleted'
-      ['undelete']
-    end
-  end
-
-  def button_to_action(action, params)
-    button_to(action.capitalize, :action => action, :params => params)
-  end
+  ACTION_PARAMS = {
+    remove_public:  { public: false },
+    reject_public:  { public: false },
+    approve_public: { public: true },
+    delete:         { flow:   FLOW[:deleted] },
+    approve:        { vetted: true },
+    undelete:       { flow:   nil }
+  }
 
   def flags_for_details(flagged_id, type)
     ModeratedFlag.find_all_by_type_and_flagged_id(type, flagged_id)

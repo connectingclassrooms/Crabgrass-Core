@@ -16,29 +16,12 @@ class Admin::PostsController < Admin::BaseController
   end
 
   # for vetting:       params[:post][:vetted] == true
-  # for hiding:        params[:post][:deleted] == true
+  # for deleting:      params[:post]['flow']  == FLOW[:deleted]
+  # for undeleting:    params[:post]['flow']  == nil
   def update
     @posts = Post.find(params[:id])
-    @posts.update_attributes(params[:post])
-    redirect_to :action => 'index', :view => params[:view]
-  end
-
-
-  # Approves a post by marking :vetted = true
-  def approve
-    @flag.approve
-    redirect_to :action => 'index', :view => params[:view]
-  end
-
-  # We use delete to hide a post.
-  def trash
-    @flag.trash
-    redirect_to :action => 'index', :view => params[:view]
-  end
-
-  # Undelete a hidden post in order to show it.
-  def undelete
-    @flag.undelete
+    post_attrs = params[:post].symbolize_keys.slice :vetted, :flow
+    @posts.update_attributes(post_attrs)
     redirect_to :action => 'index', :view => params[:view]
   end
 
