@@ -1,6 +1,6 @@
 require_relative '../../test_helper'
 
-class Admin::DiscussionPostsControllerTest < ActionController::TestCase
+class Admin::PostsControllerTest < ActionController::TestCase
   fixtures :pages, :user_participations, :group_participations, :discussions
 
   def setup
@@ -28,7 +28,8 @@ class Admin::DiscussionPostsControllerTest < ActionController::TestCase
       login_as @mod
       new_post = FactoryGirl.create :post
       make_yucky(new_post)
-      post :trash, :id => new_post.id,
+      post :update, id: new_post.id,
+        post: {flow: FLOW[:deleted]},
         :view => :deleted
       assert_response :redirect
       assert_redirected_to :action => :index, :view => 'deleted'

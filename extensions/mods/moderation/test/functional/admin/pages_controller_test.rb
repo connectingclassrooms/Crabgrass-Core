@@ -66,49 +66,4 @@ class Admin::PagesControllerTest < ActionController::TestCase
     end
   end
 
-  def test_should_get_update_public
-    # TODO: this should only work for pages with public requested
-    with_site "moderation" do
-      login_as @mod
-      get :update_public, :id => Page.first.id
-      assert_response :redirect
-      assert_redirected_to :action => 'index'
-      assert !Page.first.public?
-      assert !Page.first.public_requested?
-      get :update_public, :id => Page.first.id, :public => true
-      assert_response :redirect
-      assert_redirected_to :action => 'index'
-      assert Page.first.public?
-      assert !Page.first.public_requested?
-    end
-  end
-
-  def test_should_get_reject_public
-   with_site "moderation" do
-      login_as @mod
-      get :update_public, :id => Page.first.id
-      assert_response :redirect
-      assert_redirected_to :action => 'index'
-      assert !Page.first.public?
-      assert !Page.first.public_requested?
-      get :update_public, :id => Page.first.id, :public => false
-      assert_response :redirect
-      assert_redirected_to :action => 'index'
-      assert !Page.first.public?
-      assert !Page.first.public_requested?
-    end
-  end
-
-  def test_should_get_remove_public
-    with_site "moderation" do
-      login_as @mod
-      page=Page.first
-      page.update_attributes :public => true, :public_requested => false
-      get :remove_public,  :id => page.id
-      assert_response :redirect
-      assert_redirected_to :action => 'index'
-      assert !Page.first.public?
-      assert Page.first.public_requested?
-    end
-  end
 end
