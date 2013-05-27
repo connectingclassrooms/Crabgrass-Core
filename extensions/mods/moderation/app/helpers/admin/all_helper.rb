@@ -1,4 +1,6 @@
-module Admin::AllHelperams = { method: :post, view: @current_view }
+module Admin::AllHelper
+
+  def button_to_action(action)
     button_to action.to_s.capitalize,
       admin_page_url(page, params.merge(ACTION_PARAMS[action]))
   end

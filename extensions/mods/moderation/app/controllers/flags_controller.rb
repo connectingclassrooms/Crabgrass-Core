@@ -10,8 +10,8 @@ class Admin::FlagsController < Pages::SidebarsController
 
   def new
     new_params = @post ? { post_id: @post.id } : { page_id: @page.id }
-    form_url = admin_flags_url(new_params.merge(method: :post)
-    render :partial => 'base_page/yucky/show_add_popup', :locals => {:form_url => form_url}
+    form_url = admin_flags_url(new_params.merge(method: :post))
+    render 'base_page/yucky/show_add_popup', form_url: form_url
   end
 
   def create
