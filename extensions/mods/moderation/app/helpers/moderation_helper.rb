@@ -1,5 +1,24 @@
 module ModerationHelper
 
+
+  def tab_link(title, view=nil, options={})
+    view ||= title
+    obj_type = options[:obj_type] || 'pages'
+    controller_path = 'admin/pages' if obj_type == 'pages'
+    controller_path = 'admin/posts' if obj_type == 'posts'
+    link_to_active( title, :controller => controller_path, :action => 'index', :view => view)
+  end
+
+  def actions_for(tab)
+    TAB_ACTIONS[tab]
+  end
+
+  TAB_ACTIONS = {
+    'new'     => ['approve', 'trash'],
+    'vetted'  => ['trash'],
+    'deleted' => ['undelete']
+  }
+
   def button_to_action(action)
     button_to action.to_s.capitalize,
       admin_page_url(page, params.merge(ACTION_PARAMS[action]))
