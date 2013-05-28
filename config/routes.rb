@@ -122,7 +122,7 @@ Crabgrass::Application.routes.draw do |map|
     groups.resource  :home, :only => [:show], :controller => 'home'
     groups.pages     'pages(/*path)', :controller => 'pages'
     groups.resources :avatars
-    groups.resources :wikis, :except => [:index, :destroy]
+    groups.resources :wikis, :only => [:create, :index] #:except => [:index, :destroy, :update, ]
 
     # membership related
     groups.resources :memberships, :only => [:index, :create, :destroy]
@@ -186,12 +186,11 @@ Crabgrass::Application.routes.draw do |map|
     :namespace => 'wikis/',
     :only => [:show, :edit, :update],
     :member => {:print => :get} do |wikis|
-    wikis.resource :lock, :only  => :destroy
+    wikis.resource :lock, :only  => [:destroy, :update]
     wikis.resources :assets, :only => [:new, :create]
-    wikis.resources :versions, :only  => [:index, :show],
-      :member => {:revert => :post}
-    wikis.resources :diffs, :only => [:show]
-    wikis.resources :sections, :only => [:edit, :update]
+    wikis.resources :versions, :only  => [:index, :show], :member => {:revert => :post}
+    #wikis.resources :diffs, :only => [:show]
+    #wikis.resources :sections, :only => [:edit, :update]
   end
 
   ##
@@ -201,6 +200,14 @@ Crabgrass::Application.routes.draw do |map|
   map.root :controller => 'root'
   map.with_options(:path_prefix => 'do') do |map|
     map.connect '/static/:action/:id', :controller => 'static'
+  end
+
+  ## ADD ROUTES FROM MODS
+
+  if Crabgrass.mod_route_blocks
+    Crabgrass.mod_route_blocks.each do |block|
+      block.call(map)
+    end
   end
 
   ##
