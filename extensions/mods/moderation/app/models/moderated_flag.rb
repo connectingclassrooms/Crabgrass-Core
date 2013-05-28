@@ -23,24 +23,6 @@ class ModeratedFlag < ActiveRecord::Base
     return user.login
   end
 
-  ### don't these seem awfully repetitious? ;-)
-  def approve
-    flagged.update_attribute(:vetted, true)
-    update_all_flags('vetted_at=now()')
-  end
-
-  def trash
-    flagged.delete
-    update_all_flags('deleted_at=now()')
-  end
-
-  def undelete
-    flagged.undelete
-    update_all_flags('deleted_at=NULL')
-  end
-  ### end awfully repetitious
-
-
   def self.conditions_for_view(view)
     case view
     when 'new'
@@ -65,11 +47,5 @@ class ModeratedFlag < ActiveRecord::Base
   named_scope :by_user, lambda {|user|
     { :conditions => {:user => user} }
   }
-
-  protected
-
-  def update_all_flags(update_string)
-    ModeratedFlag.update_all(update_string, "flagged_id=#{flagged_id} and flagged_type='#{flagged_type}'")
-  end
 
 end

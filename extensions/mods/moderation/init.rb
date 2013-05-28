@@ -27,11 +27,11 @@ extend_model :User do
 end
 
 extend_model :Page do
-  include Crabgrass::Moderation::Extends::Page
+  include Crabgrass::Moderation::Extends::Moderated
 end
 
 extend_model :Post do
-  include Crabgrass::Moderation::Extends::Post
+  include Crabgrass::Moderation::Extends::Moderated
 end
 
 extend_model :Group do
