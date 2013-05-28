@@ -1,5 +1,5 @@
 require_relative '../../../../test/test_helper'
-
+require_relative 'helpers/moderation_test_helper'
 # Engines::Testing.set_fixture_path
 
 def setup_site_with_moderation
