@@ -1,0 +1,24 @@
+<h1><%= users_heading %></h1>
+<div class='info_box'>
+  <%= 'Total # of users%s: %s' % [total_users_heading, @users.total_entries] %>
+  <span style='float: right'>
+    <form action='/admin/users'>
+    <select name='show' id='users_view_select'>
+      <option value='' <%= filter_users_selected('all') %>>View all users</option>
+      <option value='active' <%= filter_users_selected('active') %>>View active users</option>
+      <option value='inactive' <%= filter_users_selected('inactive') %>> View inactive users</option>
+    </select>
+    </form>
+    <%= observe_field 'users_view_select', :function => %Q[window.location.href = "/admin/users" + "?show=" + value] %>
+  </span>
+</div>
+
+<%#= letter_pagination_links(letter_pagination_url, :available_letters => @pagination_letters) %>
+<%= alphabetical_filter :controller => 'admin/users' %>
+
+<%= render :partial => 'user_table' %>
+
+<%= pagination_links @users %>
+
+<p><%= link_to 'New user', new_user_path, :icon => 'plus' %></p>
+

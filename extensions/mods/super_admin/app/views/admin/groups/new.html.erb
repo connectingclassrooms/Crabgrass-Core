@@ -1,0 +1,10 @@
+<h1>Create Group</h1>
+
+<% form_for(@group) do |f| %>
+  <table class="create_form">
+    <%= render :partial => 'form', :locals => {:f => f} %>
+  </table>
+  <br /><br />
+  <%= submit_tag 'Create', :style => 'width:7em;' %>
+  <br /><br />
+<% end %>

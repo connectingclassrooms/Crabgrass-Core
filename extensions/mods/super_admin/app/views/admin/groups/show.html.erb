@@ -1,0 +1,66 @@
+<h1>Edit Groups</h1>
+<p>
+  <%= link_to '%s home page' % @group.name, entity_url(@group) %>
+</p>
+
+<table>
+  <tr>
+    <th>
+  Name:
+    </th>
+   <td>
+  <%=h @group.name %>
+  </td>
+</tr>
+
+<tr>
+<th>
+  Full name:
+</th>
+<td>
+  <%=h @group.full_name %>
+</td>
+</tr>
+<!--
+  <tr>
+    <th>
+      Summary:
+    </th>
+    <td>
+      <%# h @group.summary %>
+    </td>
+  </tr>
+-->
+  <tr>
+    <th>
+      Created at:
+    </th>
+    <td>
+      <%=h @group.created_at %>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Updated at:
+    </th>
+    <td>
+      <%=h @group.updated_at %>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Memberships:
+    </th>
+    <td>
+      <%- @group.users.each do |user| -%>
+        <%= link_to user.login, entity_url(user) -%>
+      <%- end -%>
+    </td>
+  </tr>
+  <tr>
+    <td colspan=2>
+      <%= link_to 'Edit', edit_group_path(@group) %> |
+      <%= link_to 'Back', groups_path %>
+    </td>
+  </tr>
+</table>
