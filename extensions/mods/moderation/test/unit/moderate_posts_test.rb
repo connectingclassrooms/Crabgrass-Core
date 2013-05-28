@@ -19,7 +19,8 @@ class ModeratePostsTest < ActiveSupport::TestCase
   end
 
   test "flagged and vetted post shows up in vetted" do
-    @post.update_attributes vetted: true
+    @post.vetted = true
+    @post.save
     assert_in_state :vetted, @post
   end
 end
