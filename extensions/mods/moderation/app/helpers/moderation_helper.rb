@@ -21,7 +21,6 @@ module ModerationHelper
 
   def button_to_action(page, action)
     params = { method: :post, view: @current_view }
-    debugger unless ACTION_PARAMS[action]
     button_to action.to_s.capitalize,
       admin_page_url(page, params.merge(ACTION_PARAMS[action]))
   end

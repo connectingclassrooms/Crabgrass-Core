@@ -24,7 +24,8 @@ class Admin::PagesController < Admin::BaseController
   #     making public: params[:page]['public'] == true
   # making non public: params[:page]['public'] == true
   def update
-    page_attrs = params[:page].symbolize_keys.slice :vetted, :flow, :public
+    page_attrs = params[:page].with_indifferent_access
+    page_attrs.slice! :vetted, :flow, :public
     @page.update_attributes(page_attrs)
     redirect_to :action => 'index', :view => params[:view]
   end

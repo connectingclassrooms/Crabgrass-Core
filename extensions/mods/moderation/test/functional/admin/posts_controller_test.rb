@@ -21,6 +21,7 @@ class Admin::PostsControllerTest < ActionController::TestCase
   def test_deleted_shows_up
     with_site "moderation" do
       login_as @mod
+      assert_none_in_view 'new'
       new_post = FactoryGirl.create :post
       make_yucky(new_post)
       post :update, id: new_post.id,

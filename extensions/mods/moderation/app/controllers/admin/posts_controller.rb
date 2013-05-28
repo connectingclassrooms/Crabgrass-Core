@@ -20,9 +20,11 @@ class Admin::PostsController < Admin::BaseController
   # for deleting:      params[:post]['deleted_at']  == Time.now
   # for undeleting:    params[:post]['deleted_at']  == nil
   def update
-    @posts = Post.find(params[:id])
-    post_attrs = params[:post].symbolize_keys.slice :vetted, :deleted_at
-    @posts.update_attributes(post_attrs)
+    @post = Post.find(params[:id])
+    post_attrs = params[:post].with_indifferent_access
+    @post.vetted = post_attrs[:vetted] if post_attrs.has_key?(:vetted)
+    @post.flow = post_attrs[:flow] if post_attrs.has_key?(:flow)
+    @post.save
     redirect_to :action => 'index', :view => params[:view]
   end
 
