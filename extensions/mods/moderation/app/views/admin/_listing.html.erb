@@ -7,7 +7,9 @@
       <th><%= listing_custom_column_header(obj_type, @current_view) %></th>
       <th>Created At</th>
       <th>Created By</th>
-      <th>Take Action</th>
+      <%- unless @current_view == 'all' %>
+        <th>Take Action</th>
+      <%- end %>
     </tr>
 
   <% @flagged.each do |flag| %>

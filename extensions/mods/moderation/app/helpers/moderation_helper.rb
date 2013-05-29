@@ -48,7 +48,8 @@ module ModerationHelper
       title = 'See All Posts'
       controller = 'posts'
     end
-    link = "<span class='small_icon #{icon}'>" + link_to_active( title, { :controller => "admin/#{controller}", :action => 'index', :view => 'all' }, @current_view == 'all' ) + "</span>"
+    link = "<span class='icon #{icon}'>" + link_to_active( h(title), { :controller => "admin/#{controller}", :action => 'index', :view => 'all' }, @current_view == 'all' ) + "</span>"
+    link.html_safe
   end
 
   def display_public_pages_links(obj_type)
