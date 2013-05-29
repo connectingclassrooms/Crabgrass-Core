@@ -11,6 +11,9 @@ Rails.application.config.to_prepare do
     acts_as_rateable
   end
 
+  Common::Application::BeforeFilters.module_eval do
+    include Crabgrass::Moderation::ModifyTheme
+  end
 end
 
 require 'crabgrass/moderation/search_filter'

@@ -19,6 +19,7 @@ module Crabgrass::SuperAdmin
           context_section :super_admin do
             label { :super_admin.t }
             active { controller?('admin/groups', 'admin/users') }
+            url     '/admin/users'
             visible { true || may_super? }
 
             local_section :users do
