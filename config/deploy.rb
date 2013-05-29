@@ -17,8 +17,8 @@ require "whenever/capistrano"
 set :application, "cc.net"
 set :user, "crabgrass"
 
-set :repository, "git://labs.riseup.net/crabgrass-core.git"
-set :branch, "develop"
+set :repository, "git://github.com/connectingclassrooms/Crabgrass-Core.git"
+set :branch, "cc.net"
 
 deploy_host = ""
 staging_host = "testcc.net"
