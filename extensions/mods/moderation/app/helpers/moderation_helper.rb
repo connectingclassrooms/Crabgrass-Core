@@ -14,15 +14,18 @@ module ModerationHelper
   end
 
   VIEW_ACTIONS = {
-    'new'     => ['approve', 'trash'],
-    'vetted'  => ['trash'],
-    'deleted' => ['undelete']
+    new:              ['approve', 'trash'],
+    vetted:           ['trash'],
+    deleted:          ['undelete'],
+    public:           ['remove_public'],
+    public_requested: ['approve_public', 'reject_public']
   }.with_indifferent_access
 
   def button_to_action(page, action)
-    params = { method: :post, view: @current_view }
+    params = { view: @current_view, page: ACTION_PARAMS[action] }
     button_to action.to_s.capitalize,
-      admin_page_url(page, params.merge(ACTION_PARAMS[action]))
+      admin_page_url(page, params.merge(ACTION_PARAMS[action])),
+      method: :put
   end
 
   ACTION_PARAMS = {
