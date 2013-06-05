@@ -21,14 +21,25 @@ module ModerationHelper
     public_requested: ['approve_public', 'reject_public']
   }.with_indifferent_access
 
-  def button_to_action(page, action)
-    params = { view: @current_view, page: ACTION_PARAMS[action] }
+  def button_to_action(obj, action)
     button_to action.to_s.capitalize,
-      admin_page_url(page, params.merge(ACTION_PARAMS[action])),
+      update_url(obj, action),
       method: :put
   end
 
-  ACTION_PARAMS = {
+  def update_url(obj, action)
+    # turn DiscussionPage into Page etc. :
+    obj = obj.becomes(obj.class.base_class)
+    url_for([:admin, obj]) + '?' + update_params(obj, action).to_query
+  end
+
+  def update_params(obj, action)
+    { :view => @current_view,
+      obj.class.name.downcase => UPDATE_PARAMS[action]
+    }
+  end
+
+  UPDATE_PARAMS = {
     remove_public:  { public: false },
     reject_public:  { public: false },
     approve_public: { public: true },
