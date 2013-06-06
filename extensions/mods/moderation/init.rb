@@ -14,6 +14,11 @@ Rails.application.config.to_prepare do
   Common::Application::BeforeFilters.module_eval do
     include Crabgrass::Moderation::ModifyTheme
   end
+
+  Pages::SidebarHelper.module_eval do
+    include Crabgrass::Moderation::PageSidebarActions
+  end
+
 end
 
 require 'crabgrass/moderation/search_filter'
