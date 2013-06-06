@@ -19,4 +19,8 @@ Crabgrass.mod_routes do |map|
     pages.resources :publications
   end
 
+  map.resources :posts, :only => [] do |posts|
+    posts.resources :moderated_flags
+  end
+
 end

@@ -19,6 +19,9 @@ Rails.application.config.to_prepare do
     include Crabgrass::Moderation::PageSidebarActions
   end
 
+  Common::Ui::PostHelper.module_eval do
+    include Crabgrass::Moderation::PostActions
+  end
 end
 
 require 'crabgrass/moderation/search_filter'

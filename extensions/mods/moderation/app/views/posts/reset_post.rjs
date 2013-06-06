@@ -1,5 +1,6 @@
 page.call 'Modalbox.hide'
-post_id  = "post-body-#{@post.id}"
 
-page.replace_html post_id, :partial => '/posts/post_body', :locals => {:post => @post}
+page.replace_html @post.body_id,
+  partial: 'common/posts/default/body',
+  locals: {post: @post}
 
