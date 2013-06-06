@@ -1,0 +1,9 @@
+Let a moderator know if you think this is offensive, rude, off-topic or unkind. We will look at it soon.
+
+= new_flag_form do |f|
+  = render 'yucky_options', f: f
+  .buttons
+    = spinner 'popup'
+    = f.submit I18n.t(:cancel_button), :name => 'cancel'
+    = f.submit I18n.t(:flag_button), :name => 'flag'
+

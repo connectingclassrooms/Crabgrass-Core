@@ -1,0 +1,7 @@
+%ul.plain
+  - [:language, :behavior, :topic, :other].each do |reason|
+    %li.clearfix
+      %span.pull-left= f.radio_button :reason_flagged, reason
+      %span.pull-left= f.label "reason_flagged_#{reason}".to_sym
+= :add_comment.t
+= f.text_area :comment, size:"40x2"

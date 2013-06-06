@@ -26,13 +26,13 @@ module Crabgrass::Moderation
         label: I18n.t(:flag_inappropriate),
         icon: 'sad_plus',
         id: 'flag_li',
-        url: new_page_flag_path(@page)
+        url: new_page_moderated_flag_path(@page)
     end
 
-    def unflag_link
+    def unflag_link(flag)
       link_to I18n.t(:flag_appropriate),
-        page_flag_path(@page, flag),
-        method: :destroy,
+        page_moderated_flag_path(@page, flag),
+        method: :delete,
         icon: 'sad_minus'
     end
 

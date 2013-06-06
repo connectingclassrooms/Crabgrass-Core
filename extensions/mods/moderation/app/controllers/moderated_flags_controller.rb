@@ -1,7 +1,7 @@
-class Admin::FlagsController < Pages::SidebarsController
+class ModeratedFlagsController < Pages::SidebarsController
   include ModerationNotice
 
-  helper 'base_page'
+  helper 'moderation'
 
   permissions 'admin/moderation'
   permissions 'flag'
@@ -9,14 +9,11 @@ class Admin::FlagsController < Pages::SidebarsController
   before_filter :login_required
 
   def new
-    new_params = @post ? { post_id: @post.id } : { page_id: @page.id }
-    form_url = admin_flags_url(new_params.merge(method: :post))
-    render 'base_page/yucky/show_add_popup', form_url: form_url
   end
 
   def create
     if params[:flag]
-      @flag.add({:reason=>params[:reason],:comment=>params[:comment]}) unless @flag.nil?
+      @flag.update_attributes params[:flag]
       send_moderation_notice(@flagged)
     end
     close_popup
@@ -33,7 +30,7 @@ class Admin::FlagsController < Pages::SidebarsController
           locals: {post: @post}
       end
     elsif @page
-      redirect_to referer
+      redirect_to page_path(@page)
     end
   end
 
@@ -41,7 +38,7 @@ class Admin::FlagsController < Pages::SidebarsController
     if @post
       render :template => '/posts/reset_post'
     elsif @page
-      render :template => 'base_page/reset_sidebar'
+      render :template => 'pages/sidebar/reset'
     end
   end
 

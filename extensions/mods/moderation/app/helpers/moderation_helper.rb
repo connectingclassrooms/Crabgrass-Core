@@ -1,5 +1,11 @@
 module ModerationHelper
 
+  def new_flag_form(&block)
+    form_remote_for [@flagged, @flag],
+      loading: show_spinner('popup'),
+      html: {id: 'yucky_page_form'},
+      &block
+  end
 
   def tab_link(title, view=nil, options={})
     view ||= title
